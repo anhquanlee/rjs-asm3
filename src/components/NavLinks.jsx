@@ -1,23 +1,30 @@
-import { NavLink } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-export default function NavLinks() {
+function NavLinks() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   return (
-    <ul>
-      <li>
-        <NavLink
-          to='/'
-          className={({ isActive }) => (isActive ? '' : undefined)}
-          end>
-          Home
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to='/shop'
-          className={({ isActive }) => (isActive ? '' : undefined)}>
-          Shop
-        </NavLink>
-      </li>
-    </ul>
+    <div className='flex items-center justify-start gap-3 text-[11px]'>
+      <button
+        type='button'
+        className={`cursor-pointer ${
+          location.pathname === '/' ? 'text-[#e6ad50]' : 'text-black'
+        }`}
+        onClick={() => navigate('/')}>
+        Home
+      </button>
+
+      <button
+        type='button'
+        className={`cursor-pointer ${
+          location.pathname === '/shop' ? 'text-[#e6ad50]' : 'text-black'
+        }`}
+        onClick={() => navigate('/shop')}>
+        Shop
+      </button>
+    </div>
   );
 }
+
+export default NavLinks;

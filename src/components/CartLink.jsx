@@ -1,18 +1,17 @@
 import { ShoppingCart } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { useCart } from '../context/CartContext'; // tuỳ bạn quản lý state giỏ hàng ở đâu
+import { useNavigate } from 'react-router-dom';
 
 function CartLink() {
-  const { cartItems } = useCart(); // hoặc lấy từ Redux/Zustand/Context của bạn
-  const itemCount =
-    cartItems?.reduce((sum, item) => sum + item.quantity, 0) || 0;
+  const navigate = useNavigate();
 
   return (
-    <Link to='/cart' className='cart-link'>
-      <ShoppingCart size={20} />
+    <button
+      type='button'
+      className='flex cursor-pointer items-center gap-0.5'
+      onClick={() => navigate('/cart')}>
+      <ShoppingCart size={12} strokeWidth={1.5} />
       <span>Cart</span>
-      {itemCount > 0 && <span className='cart-badge'>{itemCount}</span>}
-    </Link>
+    </button>
   );
 }
 
