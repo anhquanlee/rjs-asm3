@@ -39,18 +39,18 @@ function Services() {
           </p>
         </div>
 
-        <div className="flex w-full max-w-[520px]">
+        <div className="flex w-full max-w-130">
           <input
             type="email"
             placeholder="Enter your email address"
-            className="h-[56px] flex-1 border border-[#d9d9d9] px-5 text-[14px] text-black outline-none placeholder:text-[#b3b3b3]"
+            className="h-14 flex-1 border border-[#d9d9d9] px-5 text-[14px] text-black outline-none placeholder:text-[#b3b3b3]"
           />
 
           <button
             type="button"
-            className="h-[56px] cursor-pointer bg-[#333] px-8 text-[14px] text-white"
+            className="h-14 cursor-pointer bg-[#333] px-8 text-[14px] text-white"
           >
-            Subscribe
+            import Subscribe
           </button>
         </div>
       </div>

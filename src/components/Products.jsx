@@ -1,10 +1,15 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { SHOW_POPUP } from '../store/popupSlice';
+import Popup from './Popup';
 
 const API_URL =
   'https://firebasestorage.googleapis.com/v0/b/funix-subtitle.appspot.com/o/Boutique_products.json?alt=media&token=dc67a5ea-e3e0-479e-9eaf-5e01bcd09c74';
 
 function Products() {
   const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function fetchProducts() {
@@ -21,6 +26,10 @@ function Products() {
     return Number(price).toLocaleString('vi-VN');
   }
 
+  function handleShowPopup(product) {
+    dispatch(SHOW_POPUP(product));
+  }
+
   return (
     <section className="w-full bg-white py-12">
       <div className="mb-7 text-left italic">
@@ -33,16 +42,20 @@ function Products() {
         </h2>
       </div>
 
-      <div className="grid grid-cols-4 gap-x-6 gap-y-10">
+      <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
         {products.map((product) => (
           <div key={product._id} className="text-center italic">
-            <div className="mb-4 flex h-[230px] items-center justify-center overflow-hidden">
+            <button
+              type="button"
+              className="mb-4 flex h-57.5 w-full cursor-pointer items-center justify-center overflow-hidden"
+              onClick={() => handleShowPopup(product)}
+            >
               <img
                 src={product.img1}
                 alt={product.name}
-                className="h-full w-full object-contain"
+                className="h-full w-full object-contain transition-all duration-300 hover:scale-105 hover:opacity-70"
               />
-            </div>
+            </button>
 
             <h3 className="mb-1 text-[13px] font-normal text-black">
               {product.name}
@@ -54,6 +67,8 @@ function Products() {
           </div>
         ))}
       </div>
+
+      <Popup />
     </section>
   );
 }

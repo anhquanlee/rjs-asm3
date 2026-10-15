@@ -1,3 +1,11 @@
-export default function ShopPage() {
-  return <h1>ShopPage</h1>;
+import ProductList from '../components/ProductList';
+
+function ShopPage() {
+  return (
+    <div className="w-full bg-white italic">
+      <ProductList />
+    </div>
+  );
 }
+
+export default ShopPage;

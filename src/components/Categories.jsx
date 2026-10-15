@@ -57,7 +57,7 @@ function Categories() {
             className={`${category.className} group cursor-pointer overflow-hidden bg-[#f5f5f5]`}
             onClick={() => navigate('/shop')}
           >
-            <div className="flex h-[220px] items-center justify-center overflow-hidden">
+            <div className="flex h-55 items-center justify-center overflow-hidden">
               <img
                 src={category.image}
                 alt={category.name}
