@@ -1,43 +1,67 @@
 import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+
+import store from '../store';
+import {
+  getProduct,
+  getProducts,
+  getProductsError,
+  getProductsStatus,
+  setError,
+  setLoading,
+  setProducts,
+} from '../store/productsSlice';
 
 const API_URL =
   'https://firebasestorage.googleapis.com/v0/b/funix-subtitle.appspot.com/o/Boutique_products.json?alt=media&token=dc67a5ea-e3e0-479e-9eaf-5e01bcd09c74';
 
+async function fetchProducts() {
+  const response = await fetch(API_URL);
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch products.');
+  }
+
+  return await response.json();
+}
+
 function DetailPage() {
   const { productId } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const [products, setProducts] = useState([]);
+  const products = useSelector(getProducts);
+  const product = useSelector((state) => getProduct(state, productId));
+  const status = useSelector(getProductsStatus);
+  const error = useSelector(getProductsError);
+
   const [selectedImage, setSelectedImage] = useState('');
   const [quantity, setQuantity] = useState(1);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const response = await fetch(API_URL);
-        const data = await response.json();
-
-        setProducts(data);
-      } catch (error) {
-        console.error('Failed to fetch products:', error);
-      } finally {
-        setLoading(false);
-      }
+    if (status !== 'idle' || store.getState().products.status !== 'idle') {
+      return;
     }
 
-    fetchProducts();
-  }, []);
+    dispatch(setLoading());
+
+    fetchProducts()
+      .then((data) => {
+        dispatch(setProducts(data));
+      })
+      .catch((error) => {
+        dispatch(setError(error.message));
+      });
+  }, [dispatch, status]);
 
   useEffect(() => {
     setSelectedImage('');
     setQuantity(1);
+    window.scrollTo(0, 0);
   }, [productId]);
-
-  const product = products.find((item) => item._id.$oid === productId);
 
   const images = product
     ? [product.img1, product.img2, product.img3, product.img4].filter(Boolean)
@@ -55,10 +79,18 @@ function DetailPage() {
     return Number(price).toLocaleString('vi-VN');
   }
 
-  if (loading) {
+  if (status === 'idle' || status === 'loading') {
     return (
       <div className="w-full bg-white py-20 text-center text-[#999]">
         Loading product...
+      </div>
+    );
+  }
+
+  if (status === 'failed') {
+    return (
+      <div className="w-full bg-white py-20 text-center text-red-500">
+        {error}
       </div>
     );
   }

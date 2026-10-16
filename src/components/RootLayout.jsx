@@ -6,12 +6,12 @@ function RootLayout() {
     <div className="min-h-screen bg-white">
       <MainNavigation />
 
-      <main className="mx-auto flex min-h-95.75 w-full max-w-175 items-center justify-center bg-[#fff0dc] text-black">
+      <main className="mx-auto flex min-h-95.75 w-full max-w-225 items-center justify-center bg-[#fff0dc] text-black">
         <Outlet />
       </main>
 
       <footer className="mx-4 h-45.5 bg-[#111] italic">
-        <div className="mx-auto grid h-full w-full max-w-175 grid-cols-3 pt-11">
+        <div className="mx-auto grid h-full w-full max-w-225 grid-cols-3 pt-11">
           <div>
             <h3 className="mb-2.5 text-[12px] font-normal text-white">
               CUSTOMER SERVICES

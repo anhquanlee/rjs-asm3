@@ -50,7 +50,7 @@ function Services() {
             type="button"
             className="h-14 cursor-pointer bg-[#333] px-8 text-[14px] text-white"
           >
-            import Subscribe
+            Subscribe
           </button>
         </div>
       </div>
