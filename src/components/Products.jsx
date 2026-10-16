@@ -44,7 +44,7 @@ function Products() {
 
       <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
         {products.map((product) => (
-          <div key={product._id} className="text-center italic">
+          <div key={product._id.$oid} className="text-center italic">
             <button
               type="button"
               className="mb-4 flex h-57.5 w-full cursor-pointer items-center justify-center overflow-hidden"

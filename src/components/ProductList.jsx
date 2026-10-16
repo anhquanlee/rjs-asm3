@@ -115,10 +115,10 @@ function ProductList() {
         <div className="grid grid-cols-2 gap-x-5 gap-y-10 lg:grid-cols-3">
           {currentProducts.map((product) => (
             <button
-              key={product._id}
+              key={product._id.$oid}
               type="button"
               className="cursor-pointer text-center italic"
-              onClick={() => navigate(`/detail/${product._id}`)}
+              onClick={() => navigate(`/detail/${product._id.$oid}`)}
             >
               <div className="mb-4 flex h-50 items-center justify-center overflow-hidden">
                 <img

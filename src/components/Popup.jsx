@@ -25,7 +25,7 @@ function Popup() {
 
   function handleViewDetail() {
     dispatch(HIDE_POPUP());
-    navigate(`/detail/${product._id}`);
+    navigate(`/detail/${product._id.$oid}`);
   }
 
   return (
