@@ -18,11 +18,11 @@ function CartPage() {
   }
 
   return (
-    <div className="w-full bg-white px-5 pb-20 italic">
+    <div className="w-full bg-white pb-20 italic">
       {/* Page banner */}
       <section className="flex min-h-45 items-center justify-between bg-[#f8f9fa] px-8 md:px-14">
         <h1 className="text-[30px] font-normal text-black">CART</h1>
-        <span className="text-[13px] text-[#aaa]">CART</span>
+        <span className="text-md text-[#aaa]">CART</span>
       </section>
 
       {/* Shopping cart */}

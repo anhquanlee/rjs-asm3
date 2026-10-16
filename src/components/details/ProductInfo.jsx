@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ADD_CART } from '../../store/cartSlice';
+import Button from '../ui/Button';
 
 function ProductInfo({ product }) {
   const navigate = useNavigate();
@@ -12,7 +13,6 @@ function ProductInfo({ product }) {
   const dispatch = useDispatch();
 
   const currentUser = useSelector((state) => state.auth.currentUser);
-
   const [quantity, setQuantity] = useState(1);
 
   function formatPrice(price) {
@@ -63,37 +63,34 @@ function ProductInfo({ product }) {
             QUANTITY
           </span>
 
-          <button
-            type="button"
+          <Button
             disabled={quantity === 1}
             onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
-            className="cursor-pointer px-2 text-[12px] text-black disabled:opacity-30"
+            className="px-2 text-[12px] text-black"
             aria-label="Decrease quantity"
           >
             <FontAwesomeIcon icon={faCaretLeft} />
-          </button>
+          </Button>
 
           <span className="min-w-6 text-center text-[16px] not-italic text-[#555]">
             {quantity}
           </span>
 
-          <button
-            type="button"
+          <Button
             onClick={() => setQuantity((prev) => prev + 1)}
-            className="cursor-pointer px-2 text-[12px] text-black"
+            className="px-2 text-[12px] text-black"
             aria-label="Increase quantity"
           >
             <FontAwesomeIcon icon={faCaretRight} />
-          </button>
+          </Button>
         </div>
 
-        <button
-          type="button"
+        <Button
           onClick={handleAddToCart}
-          className="h-11.5 cursor-pointer bg-[#333] px-7 text-[14px] text-white hover:bg-black"
+          className="h-11.5 bg-[#333] px-7 text-[14px] text-white hover:bg-black"
         >
           Add to cart
-        </button>
+        </Button>
       </div>
     </div>
   );

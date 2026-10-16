@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { useInput } from '../../hooks/useInput';
 import { hasMinLength, isEmail, isNotEmpty } from '../../utils/validation';
-import Input from './Input';
+import Button from '../ui/Button';
+import Input from '../ui/Input';
 
 function Signup() {
   const navigate = useNavigate();
@@ -95,8 +96,8 @@ function Signup() {
         <form onSubmit={handleSubmit} noValidate>
           <div className="mb-5">
             <Input
-              label="Full Name"
               id="signup-fullname"
+              label="Full Name"
               type="text"
               name="fullName"
               value={fullNameValue}
@@ -106,8 +107,8 @@ function Signup() {
             />
 
             <Input
-              label="Email"
               id="signup-email"
+              label="Email"
               type="email"
               name="email"
               value={emailValue}
@@ -117,8 +118,8 @@ function Signup() {
             />
 
             <Input
-              label="Password"
               id="signup-password"
+              label="Password"
               type="password"
               name="password"
               value={passwordValue}
@@ -131,8 +132,8 @@ function Signup() {
             />
 
             <Input
-              label="Phone"
               id="signup-phone"
+              label="Phone"
               type="tel"
               name="phone"
               value={phoneValue}
@@ -146,23 +147,23 @@ function Signup() {
             <p className="mb-4 text-[13px] not-italic text-red-500">{error}</p>
           )}
 
-          <button
+          <Button
             type="submit"
-            className="h-12 w-full cursor-pointer bg-[#444] text-[13px] not-italic text-white hover:bg-[#333]"
+            fullWidth
+            className="h-12 bg-[#444] text-[13px] not-italic text-white hover:bg-[#333]"
           >
             SIGN UP
-          </button>
+          </Button>
         </form>
 
         <p className="mt-8 text-center text-[13px] text-[#aaa]">
           Login?{' '}
-          <button
-            type="button"
+          <Button
             onClick={() => navigate('/auth?mode=login')}
-            className="cursor-pointer text-[#7699f5]"
+            className="text-[#7699f5]"
           >
             Click
-          </button>
+          </Button>
         </p>
       </div>
     </div>

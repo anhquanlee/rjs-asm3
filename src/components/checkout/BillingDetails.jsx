@@ -2,7 +2,8 @@ import { useState } from 'react';
 
 import { useInput } from '../../hooks/useInput';
 import { isEmail, isNotEmpty } from '../../utils/validation';
-import BillingInput from './BillingInput';
+import Button from '../ui/Button';
+import Input from '../ui/Input';
 
 function BillingDetails({ currentUser, isEmpty }) {
   const [submitted, setSubmitted] = useState(false);
@@ -67,7 +68,9 @@ function BillingDetails({ currentUser, isEmpty }) {
 
   return (
     <form onSubmit={handleSubmit} noValidate>
-      <BillingInput
+      <Input
+        variant="checkout"
+        showLabel
         id="checkout-fullname"
         label="FULL NAME:"
         type="text"
@@ -76,11 +79,12 @@ function BillingDetails({ currentUser, isEmpty }) {
         value={fullNameValue}
         onChange={handleFullNameChange}
         onBlur={handleFullNameBlur}
-        error={fullNameHasError}
-        errorMessage="Please enter your full name!"
+        error={fullNameHasError && 'Please enter your full name!'}
       />
 
-      <BillingInput
+      <Input
+        variant="checkout"
+        showLabel
         id="checkout-email"
         label="EMAIL:"
         type="email"
@@ -89,11 +93,12 @@ function BillingDetails({ currentUser, isEmpty }) {
         value={emailValue}
         onChange={handleEmailChange}
         onBlur={handleEmailBlur}
-        error={emailHasError}
-        errorMessage="Please enter a valid email!"
+        error={emailHasError && 'Please enter a valid email!'}
       />
 
-      <BillingInput
+      <Input
+        variant="checkout"
+        showLabel
         id="checkout-phone"
         label="PHONE NUMBER:"
         type="tel"
@@ -102,11 +107,12 @@ function BillingDetails({ currentUser, isEmpty }) {
         value={phoneValue}
         onChange={handlePhoneChange}
         onBlur={handlePhoneBlur}
-        error={phoneHasError}
-        errorMessage="Please enter your phone number!"
+        error={phoneHasError && 'Please enter your phone number!'}
       />
 
-      <BillingInput
+      <Input
+        variant="checkout"
+        showLabel
         id="checkout-address"
         label="ADDRESS:"
         type="text"
@@ -115,17 +121,16 @@ function BillingDetails({ currentUser, isEmpty }) {
         value={addressValue}
         onChange={handleAddressChange}
         onBlur={handleAddressBlur}
-        error={addressHasError}
-        errorMessage="Please enter your address!"
+        error={addressHasError && 'Please enter your address!'}
       />
 
-      <button
+      <Button
         type="submit"
         disabled={isEmpty}
-        className="cursor-pointer bg-[#333] px-7 py-3 text-[14px] text-white hover:bg-black disabled:cursor-not-allowed disabled:opacity-40"
+        className="bg-[#333] px-7 py-3 text-[14px] text-white hover:bg-black"
       >
         Place order
-      </button>
+      </Button>
 
       {submitted && isEmpty && (
         <p className="mt-3 text-[12px] text-red-500">

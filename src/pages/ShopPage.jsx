@@ -8,7 +8,7 @@ function ShopPage() {
           SHOP
         </h1>
 
-        <p className="text-[12px] text-[#aaa]">SHOP</p>
+        <p className="text-md text-[#aaa]">SHOP</p>
       </section>
 
       <ProductList />

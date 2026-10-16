@@ -16,7 +16,7 @@ function CheckoutPage() {
   }
 
   return (
-    <div className="w-full bg-white px-5 pb-20 italic">
+    <div className="w-full bg-white pb-20 italic">
       {/* Checkout banner */}
       <section className="flex min-h-45 items-center justify-between bg-[#f8f9fa] px-8 md:px-14">
         <h1 className="text-[30px] font-normal tracking-wide text-black">

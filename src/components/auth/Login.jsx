@@ -6,7 +6,8 @@ import { useInput } from '../../hooks/useInput';
 import { ON_LOGIN } from '../../store/authSlice';
 import { loadUserCart, SET_CART } from '../../store/cartSlice';
 import { isEmail, isNotEmpty } from '../../utils/validation';
-import Input from './Input';
+import Button from '../ui/Button';
+import Input from '../ui/Input';
 
 function Login() {
   const navigate = useNavigate();
@@ -88,8 +89,8 @@ function Login() {
         <form onSubmit={handleSubmit} noValidate>
           <div className="mb-5">
             <Input
-              label="Email"
               id="login-email"
+              label="Email"
               type="email"
               name="email"
               value={emailValue}
@@ -99,8 +100,8 @@ function Login() {
             />
 
             <Input
-              label="Password"
               id="login-password"
+              label="Password"
               type="password"
               name="password"
               value={passwordValue}
@@ -114,27 +115,27 @@ function Login() {
             <p className="mb-4 text-[13px] not-italic text-red-500">{error}</p>
           )}
 
-          <button
+          <Button
             type="submit"
-            className="h-12 w-full cursor-pointer bg-[#444] text-[13px] not-italic text-white hover:bg-[#333]"
+            fullWidth
+            className="h-12 bg-[#444] text-[13px] not-italic text-white hover:bg-[#333]"
           >
             SIGN IN
-          </button>
+          </Button>
         </form>
 
         <p className="mt-8 text-center text-[13px] text-[#aaa]">
           Create an account?{' '}
-          <button
-            type="button"
+          <Button
             onClick={() =>
               navigate('/auth?mode=signup', {
                 state: location.state,
               })
             }
-            className="cursor-pointer text-[#7699f5]"
+            className="text-[#7699f5]"
           >
             Sign up
-          </button>
+          </Button>
         </p>
       </div>
     </div>
