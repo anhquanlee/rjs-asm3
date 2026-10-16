@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 
-import iphoneImage from '../assets/product_1.png';
-import macImage from '../assets/product_2.png';
-import ipadImage from '../assets/product_3.png';
-import watchImage from '../assets/product_4.png';
-import airpodsImage from '../assets/product_5.png';
+import iphoneImage from '../../assets/product_1.png';
+import macImage from '../../assets/product_2.png';
+import ipadImage from '../../assets/product_3.png';
+import watchImage from '../../assets/product_4.png';
+import airpodsImage from '../../assets/product_5.png';
 
 function Categories() {
   const navigate = useNavigate();

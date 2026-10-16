@@ -1,7 +1,7 @@
-import Banner from '../components/Banner';
-import Categories from '../components/Categories';
-import Products from '../components/Products';
-import Services from '../components/Services';
+import Banner from '../components/home/Banner';
+import Categories from '../components/home/Categories';
+import Products from '../components/home/Products';
+import Services from '../components/home/Services';
 
 function HomePage() {
   return (

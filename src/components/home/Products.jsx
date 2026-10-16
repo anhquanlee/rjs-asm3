@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useRouteLoaderData } from 'react-router-dom';
 
-import { SHOW_POPUP } from '../store/popupSlice';
+import { SHOW_POPUP } from '../../store/popupSlice';
 import Popup from './Popup';
 
 function Products() {

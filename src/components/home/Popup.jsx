@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { HIDE_POPUP } from '../store/popupSlice';
+import { HIDE_POPUP } from '../../store/popupSlice';
 
 function Popup() {
   const dispatch = useDispatch();

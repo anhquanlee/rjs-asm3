@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import Input from '../components/Input';
-import { useInput } from '../hooks/useInput';
-import { ON_LOGIN } from '../store/authSlice';
-import { loadUserCart, SET_CART } from '../store/cartSlice';
-import { isEmail, isNotEmpty } from '../utils/validation';
+import { useInput } from '../../hooks/useInput';
+import { ON_LOGIN } from '../../store/authSlice';
+import { loadUserCart, SET_CART } from '../../store/cartSlice';
+import { isEmail, isNotEmpty } from '../../utils/validation';
+import Input from './Input';
 
 function Login() {
   const navigate = useNavigate();

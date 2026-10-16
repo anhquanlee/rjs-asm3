@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Input from '../components/Input';
-import { useInput } from '../hooks/useInput';
-import { hasMinLength, isEmail, isNotEmpty } from '../utils/validation';
+import { useInput } from '../../hooks/useInput';
+import { hasMinLength, isEmail, isNotEmpty } from '../../utils/validation';
+import Input from './Input';
 
 function Signup() {
   const navigate = useNavigate();
