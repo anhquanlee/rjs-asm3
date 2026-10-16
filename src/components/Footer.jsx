@@ -2,7 +2,7 @@ function Footer() {
   return (
     <footer className="mx-4 h-45.5 bg-[#111] italic">
       {/* justify-between nhin khong hop mat */}
-      <div className="mx-auto flex h-full w-full max-w-225 justify-around pt-11">
+      <div className="mx-auto flex h-full w-full max-w-235 justify-around pt-11">
         <div>
           <h3 className="mb-2.5 text-sm font-normal text-white">
             CUSTOMER SERVICES

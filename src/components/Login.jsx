@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import Input from '../components/Input';
 import { useInput } from '../hooks/useInput';
 import { ON_LOGIN } from '../store/authSlice';
+import { loadUserCart, SET_CART } from '../store/cartSlice';
 import { isEmail, isNotEmpty } from '../utils/validation';
 
 function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
 
   const [error, setError] = useState('');
@@ -62,9 +64,18 @@ function Login() {
     };
 
     localStorage.setItem('currentUser', JSON.stringify(currentUser));
-    dispatch(ON_LOGIN(currentUser));
 
-    navigate('/');
+    dispatch(ON_LOGIN(currentUser));
+    dispatch(SET_CART(loadUserCart(currentUser.email)));
+
+    const from = location.state?.from;
+
+    const redirectPath =
+      typeof from === 'string' && from.startsWith('/') && !from.startsWith('//')
+        ? from
+        : '/';
+
+    navigate(redirectPath, { replace: true });
   }
 
   return (
@@ -115,7 +126,11 @@ function Login() {
           Create an account?{' '}
           <button
             type="button"
-            onClick={() => navigate('/auth?mode=signup')}
+            onClick={() =>
+              navigate('/auth?mode=signup', {
+                state: location.state,
+              })
+            }
             className="cursor-pointer text-[#7699f5]"
           >
             Sign up

@@ -1,11 +1,23 @@
 import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams, useRouteLoaderData } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useRouteLoaderData,
+} from 'react-router-dom';
+
+import { ADD_CART } from '../store/cartSlice';
 
 function DetailPage() {
   const { productId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const dispatch = useDispatch();
+
+  const currentUser = useSelector((state) => state.auth.currentUser);
 
   const products = useRouteLoaderData('root');
   const product = products.find((item) => item._id.$oid === productId);
@@ -33,6 +45,24 @@ function DetailPage() {
 
   function formatPrice(price) {
     return Number(price).toLocaleString('vi-VN');
+  }
+
+  function handleAddToCart() {
+    if (!currentUser) {
+      navigate('/auth?mode=login', {
+        state: {
+          from: `${location.pathname}${location.search}`,
+        },
+      });
+      return;
+    }
+
+    dispatch(
+      ADD_CART({
+        product,
+        quantity,
+      })
+    );
   }
 
   if (!product) {
@@ -124,8 +154,8 @@ function DetailPage() {
 
             <button
               type="button"
-              disabled
-              className="h-11.5 bg-[#333] px-7 text-[14px] text-white disabled:cursor-not-allowed"
+              onClick={handleAddToCart}
+              className="h-11.5 cursor-pointer bg-[#333] px-7 text-[14px] text-white hover:bg-black"
             >
               Add to cart
             </button>
