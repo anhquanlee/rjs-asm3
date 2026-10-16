@@ -1,23 +1,13 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useRouteLoaderData } from 'react-router-dom';
 
 import Category from './Category';
-
-import {
-  getProducts,
-  getProductsError,
-  getProductsStatus,
-} from '../store/productsSlice';
 
 const PRODUCTS_PER_PAGE = 9;
 
 function ProductList() {
   const navigate = useNavigate();
-
-  const products = useSelector(getProducts);
-  const status = useSelector(getProductsStatus);
-  const error = useSelector(getProductsError);
+  const products = useRouteLoaderData('root');
 
   const [category, setCategory] = useState('all');
   const [search, setSearch] = useState('');
@@ -112,89 +102,75 @@ function ProductList() {
           </select>
         </div>
 
-        {(status === 'idle' || status === 'loading') && (
-          <p className="py-10 text-center text-[#999]">Loading products...</p>
-        )}
+        <div className="grid grid-cols-2 gap-x-5 gap-y-10 lg:grid-cols-3">
+          {currentProducts.map((product) => (
+            <button
+              key={product._id.$oid}
+              type="button"
+              className="cursor-pointer text-center italic"
+              onClick={() => navigate(`/detail/${product._id.$oid}`)}
+            >
+              <div className="mb-4 flex h-50 items-center justify-center overflow-hidden">
+                <img
+                  src={product.img1}
+                  alt={product.name}
+                  className="h-full w-full object-contain transition-all duration-300 hover:scale-105 hover:opacity-70"
+                />
+              </div>
 
-        {status === 'failed' && (
-          <p className="py-10 text-center text-red-500">{error}</p>
-        )}
+              <h3 className="mb-2 text-[13px] text-black">{product.name}</h3>
 
-        {status === 'succeeded' && (
-          <>
-            <div className="grid grid-cols-2 gap-x-5 gap-y-10 lg:grid-cols-3">
-              {currentProducts.map((product) => (
+              <p className="text-[12px] text-[#aaa]">
+                {formatPrice(product.price)} VND
+              </p>
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-10 flex flex-col items-end gap-2">
+          {totalPages > 1 && (
+            <div className="flex items-center">
+              <button
+                type="button"
+                disabled={currentPage === 1}
+                onClick={handlePreviousPage}
+                className="flex h-9 w-9 cursor-pointer items-center justify-center border border-[#ddd] text-[15px] disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                «
+              </button>
+
+              {Array.from({ length: totalPages }, (_, index) => (
                 <button
-                  key={product._id.$oid}
+                  key={index + 1}
                   type="button"
-                  className="cursor-pointer text-center italic"
-                  onClick={() => navigate(`/detail/${product._id.$oid}`)}
+                  onClick={() => setCurrentPage(index + 1)}
+                  className={`flex h-9 w-9 cursor-pointer items-center justify-center border border-[#ddd] text-[13px] ${
+                    currentPage === index + 1
+                      ? 'bg-[#111] text-white'
+                      : 'bg-white text-black hover:bg-[#f5f5f5]'
+                  }`}
                 >
-                  <div className="mb-4 flex h-50 items-center justify-center overflow-hidden">
-                    <img
-                      src={product.img1}
-                      alt={product.name}
-                      className="h-full w-full object-contain transition-all duration-300 hover:scale-105 hover:opacity-70"
-                    />
-                  </div>
-
-                  <h3 className="mb-2 text-[13px] text-black">
-                    {product.name}
-                  </h3>
-
-                  <p className="text-[12px] text-[#aaa]">
-                    {formatPrice(product.price)} VND
-                  </p>
+                  {index + 1}
                 </button>
               ))}
+
+              <button
+                type="button"
+                disabled={currentPage === totalPages}
+                onClick={handleNextPage}
+                className="flex h-9 w-9 cursor-pointer items-center justify-center border border-[#ddd] text-[15px] disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                »
+              </button>
             </div>
+          )}
 
-            <div className="mt-10 flex flex-col items-end gap-2">
-              {totalPages > 1 && (
-                <div className="flex items-center">
-                  <button
-                    type="button"
-                    disabled={currentPage === 1}
-                    onClick={handlePreviousPage}
-                    className="flex h-9 w-9 cursor-pointer items-center justify-center border border-[#ddd] text-[15px] disabled:cursor-not-allowed disabled:opacity-40"
-                  >
-                    «
-                  </button>
-
-                  {Array.from({ length: totalPages }, (_, index) => (
-                    <button
-                      key={index + 1}
-                      type="button"
-                      onClick={() => setCurrentPage(index + 1)}
-                      className={`flex h-9 w-9 cursor-pointer items-center justify-center border border-[#ddd] text-[13px] ${
-                        currentPage === index + 1
-                          ? 'bg-[#111] text-white'
-                          : 'bg-white text-black hover:bg-[#f5f5f5]'
-                      }`}
-                    >
-                      {index + 1}
-                    </button>
-                  ))}
-
-                  <button
-                    type="button"
-                    disabled={currentPage === totalPages}
-                    onClick={handleNextPage}
-                    className="flex h-9 w-9 cursor-pointer items-center justify-center border border-[#ddd] text-[15px] disabled:cursor-not-allowed disabled:opacity-40"
-                  >
-                    »
-                  </button>
-                </div>
-              )}
-
-              <p className="text-[12px] italic text-[#aaa]">
-                Showing {sortedProducts.length === 0 ? 0 : startIndex + 1}-
-                {Math.min(endIndex, sortedProducts.length)} of{' '}
-                {sortedProducts.length} results
-              </p>
-            </div>
-          </>
-        )}
+          <p className="text-[12px] italic text-[#aaa]">
+            Showing {sortedProducts.length === 0 ? 0 : startIndex + 1}-
+            {Math.min(endIndex, sortedProducts.length)} of{' '}
+            {sortedProducts.length} results
+          </p>
+        </div>
       </div>
     </div>
   );

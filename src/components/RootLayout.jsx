@@ -11,7 +11,8 @@ function RootLayout() {
       </main>
 
       <footer className="mx-4 h-45.5 bg-[#111] italic">
-        <div className="mx-auto grid h-full w-full max-w-225 grid-cols-3 pt-11">
+        {/* justify-between nhin khong hop mat */}
+        <div className="mx-auto flex h-full w-full max-w-225 justify-around pt-11">
           <div>
             <h3 className="mb-2.5 text-[12px] font-normal text-white">
               CUSTOMER SERVICES
