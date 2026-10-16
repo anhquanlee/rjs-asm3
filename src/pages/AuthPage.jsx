@@ -1,6 +1,20 @@
-export default function AuthPage() {
-  return <h1>AuthPage</h1>;
+import { Navigate, useSearchParams } from 'react-router-dom';
+import Login from '../components/Login';
+import Signup from '../components/SignUp';
+
+function AuthPage() {
+  const [searchParams] = useSearchParams();
+  const mode = searchParams.get('mode');
+
+  if (mode === 'signup') {
+    return <Signup />;
+  }
+
+  if (mode === 'login') {
+    return <Login />;
+  }
+
+  return <Navigate to="/auth?mode=login" replace />;
 }
 
-export async function action() {}
-export async function loader() {}
+export default AuthPage;

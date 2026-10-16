@@ -5,22 +5,24 @@ function NavLinks() {
   const location = useLocation();
 
   return (
-    <div className='flex items-center justify-start gap-3 text-[11px]'>
+    <div className="flex items-center justify-start gap-3 text-sm">
       <button
-        type='button'
+        type="button"
         className={`cursor-pointer ${
           location.pathname === '/' ? 'text-[#e6ad50]' : 'text-black'
         }`}
-        onClick={() => navigate('/')}>
+        onClick={() => navigate('/')}
+      >
         Home
       </button>
 
       <button
-        type='button'
+        type="button"
         className={`cursor-pointer ${
           location.pathname === '/shop' ? 'text-[#e6ad50]' : 'text-black'
         }`}
-        onClick={() => navigate('/shop')}>
+        onClick={() => navigate('/shop')}
+      >
         Shop
       </button>
     </div>
