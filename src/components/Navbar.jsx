@@ -7,7 +7,7 @@ function MainNavigation() {
       <nav className="mx-auto grid h-full w-full max-w-235 grid-cols-[1fr_auto_1fr] items-center px-4 italic">
         <NavLinks />
 
-        <p className="text-2xl text-black">BOUTIQUE</p>
+        <p className="text-2xl text-black tracking-[0.2em]">BOUTIQUE</p>
 
         <NavActions />
       </nav>

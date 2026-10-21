@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useRouteLoaderData } from 'react-router-dom';
 
 import { SHOW_POPUP } from '../../store/popupSlice';
-import Popup from './Popup';
+import ProductModal from './ProductModal';
 
 function Products() {
   const dispatch = useDispatch();
@@ -12,16 +12,14 @@ function Products() {
     return Number(price).toLocaleString('vi-VN');
   }
 
-  function handleShowPopup(product) {
+  function handleShowModal(product) {
     dispatch(SHOW_POPUP(product));
   }
 
   return (
     <section className="w-full bg-white py-12">
       <div className="mb-7 text-left italic">
-        <p className="mb-1 text-[11px] tracking-[2px] text-[#b5b5b5]">
-          MADE THE HARD WAY
-        </p>
+        <p className="mb-1 text-[11px] tracking-[2px] text-[#b5b5b5]">MADE THE HARD WAY</p>
 
         <h2 className="text-[18px] font-semibold tracking-[2px] text-black">
           TOP TRENDING PRODUCTS
@@ -34,7 +32,7 @@ function Products() {
             <button
               type="button"
               className="mb-4 flex h-57.5 w-full cursor-pointer items-center justify-center overflow-hidden"
-              onClick={() => handleShowPopup(product)}
+              onClick={() => handleShowModal(product)}
             >
               <img
                 src={product.img1}
@@ -43,18 +41,14 @@ function Products() {
               />
             </button>
 
-            <h3 className="mb-1 text-[13px] font-normal text-black">
-              {product.name}
-            </h3>
+            <h3 className="mb-1 text-[13px] font-normal text-black">{product.name}</h3>
 
-            <p className="text-[11px] text-[#a3a3a3]">
-              {formatPrice(product.price)} VND
-            </p>
+            <p className="text-[11px] text-[#a3a3a3]">{formatPrice(product.price)} VND</p>
           </div>
         ))}
       </div>
 
-      <Popup />
+      <ProductModal />
     </section>
   );
 }

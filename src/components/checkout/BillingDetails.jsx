@@ -8,58 +8,53 @@ import Input from '../ui/Input';
 function BillingDetails({ currentUser, isEmpty }) {
   const [submitted, setSubmitted] = useState(false);
 
-  const {
-    value: fullNameValue,
-    handleInputChange: handleFullNameChange,
-    handleInputBlur: handleFullNameBlur,
-    hasError: fullNameHasError,
-    isValid: fullNameIsValid,
-  } = useInput(currentUser.fullName || '', isNotEmpty);
+  const fullName = useInput(currentUser.fullName || '', isNotEmpty);
+  const email = useInput(currentUser.email || '', (value) => isEmail(value) && isNotEmpty(value));
+  const phone = useInput(currentUser.phone || '', isNotEmpty);
+  const address = useInput('', isNotEmpty);
 
-  const {
-    value: emailValue,
-    handleInputChange: handleEmailChange,
-    handleInputBlur: handleEmailBlur,
-    hasError: emailHasError,
-    isValid: emailIsValid,
-  } = useInput(
-    currentUser.email || '',
-    (value) => isEmail(value) && isNotEmpty(value)
-  );
-
-  const {
-    value: phoneValue,
-    handleInputChange: handlePhoneChange,
-    handleInputBlur: handlePhoneBlur,
-    hasError: phoneHasError,
-    isValid: phoneIsValid,
-  } = useInput(currentUser.phone || '', isNotEmpty);
-
-  const {
-    value: addressValue,
-    handleInputChange: handleAddressChange,
-    handleInputBlur: handleAddressBlur,
-    hasError: addressHasError,
-    isValid: addressIsValid,
-  } = useInput('', isNotEmpty);
+  const fields = [
+    {
+      name: 'fullName',
+      label: 'fullName',
+      type: 'text',
+      placeholder: 'Enter Your Full Name Here!',
+      input: fullName,
+      errorMessage: 'Please enter your full name!',
+    },
+    {
+      name: 'email',
+      label: 'email',
+      type: 'email',
+      placeholder: 'Enter Your Email Here!',
+      input: email,
+      errorMessage: 'Please enter a valid email!',
+    },
+    {
+      name: 'phone',
+      label: 'phone',
+      type: 'tel',
+      placeholder: 'Enter Your Phone Number Here!',
+      input: phone,
+      errorMessage: 'Please enter your phone number!',
+    },
+    {
+      name: 'address',
+      label: 'address',
+      type: 'text',
+      placeholder: 'Enter Your Address Here!',
+      input: address,
+      errorMessage: 'Please enter your address!',
+    },
+  ];
 
   function handleSubmit(event) {
     event.preventDefault();
-
     setSubmitted(true);
 
-    handleFullNameBlur();
-    handleEmailBlur();
-    handlePhoneBlur();
-    handleAddressBlur();
+    fields.forEach(({ input }) => input.handleInputBlur());
 
-    if (
-      !fullNameIsValid ||
-      !emailIsValid ||
-      !phoneIsValid ||
-      !addressIsValid ||
-      isEmpty
-    ) {
+    if (fields.some(({ input }) => !input.isValid) || isEmpty) {
       return;
     }
 
@@ -68,61 +63,17 @@ function BillingDetails({ currentUser, isEmpty }) {
 
   return (
     <form onSubmit={handleSubmit} noValidate>
-      <Input
-        variant="checkout"
-        showLabel
-        id="checkout-fullname"
-        label="FULL NAME:"
-        type="text"
-        name="fullName"
-        placeholder="Enter Your Full Name Here!"
-        value={fullNameValue}
-        onChange={handleFullNameChange}
-        onBlur={handleFullNameBlur}
-        error={fullNameHasError && 'Please enter your full name!'}
-      />
-
-      <Input
-        variant="checkout"
-        showLabel
-        id="checkout-email"
-        label="EMAIL:"
-        type="email"
-        name="email"
-        placeholder="Enter Your Email Here!"
-        value={emailValue}
-        onChange={handleEmailChange}
-        onBlur={handleEmailBlur}
-        error={emailHasError && 'Please enter a valid email!'}
-      />
-
-      <Input
-        variant="checkout"
-        showLabel
-        id="checkout-phone"
-        label="PHONE NUMBER:"
-        type="tel"
-        name="phone"
-        placeholder="Enter Your Phone Number Here!"
-        value={phoneValue}
-        onChange={handlePhoneChange}
-        onBlur={handlePhoneBlur}
-        error={phoneHasError && 'Please enter your phone number!'}
-      />
-
-      <Input
-        variant="checkout"
-        showLabel
-        id="checkout-address"
-        label="ADDRESS:"
-        type="text"
-        name="address"
-        placeholder="Enter Your Address Here!"
-        value={addressValue}
-        onChange={handleAddressChange}
-        onBlur={handleAddressBlur}
-        error={addressHasError && 'Please enter your address!'}
-      />
+      {fields.map(({ input, errorMessage, ...field }) => (
+        <Input
+          key={field.name}
+          variant="checkout"
+          value={input.value}
+          onChange={input.handleInputChange}
+          onBlur={input.handleInputBlur}
+          error={input.hasError && errorMessage}
+          {...field}
+        />
+      ))}
 
       <Button
         type="submit"
@@ -133,9 +84,7 @@ function BillingDetails({ currentUser, isEmpty }) {
       </Button>
 
       {submitted && isEmpty && (
-        <p className="mt-3 text-[12px] text-red-500">
-          Your shopping cart is empty.
-        </p>
+        <p className="mt-3 text-[12px] text-red-500">Your shopping cart is empty.</p>
       )}
     </form>
   );

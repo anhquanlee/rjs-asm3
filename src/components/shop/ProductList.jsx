@@ -1,9 +1,16 @@
+import {
+  faAngleLeft,
+  faAngleRight,
+  faAnglesLeft,
+  faAnglesRight,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { useNavigate, useRouteLoaderData } from 'react-router-dom';
 
 import Category from './Category';
 
-const PRODUCTS_PER_PAGE = 9;
+const PRODUCTS_PER_PAGE = 1;
 
 function ProductList() {
   const navigate = useNavigate();
@@ -14,16 +21,13 @@ function ProductList() {
   const [sort, setSort] = useState('default');
   const [currentPage, setCurrentPage] = useState(1);
 
+  // sort by category then sort by search value
   const filteredProducts = products
     .filter((product) => {
       const selectedCategory = category.toLowerCase();
       const productCategory = product.category.toLowerCase();
 
-      return (
-        selectedCategory === 'all' ||
-        productCategory === selectedCategory ||
-        (selectedCategory === 'watch' && productCategory === 'watchs')
-      );
+      return selectedCategory === 'all' || productCategory === selectedCategory;
     })
     .filter((product) => {
       return product.name.toLowerCase().includes(search.toLowerCase());
@@ -41,10 +45,14 @@ function ProductList() {
 
   const totalPages = Math.ceil(sortedProducts.length / PRODUCTS_PER_PAGE);
 
+  // products index
   const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
   const endIndex = startIndex + PRODUCTS_PER_PAGE;
-
   const currentProducts = sortedProducts.slice(startIndex, endIndex);
+
+  const visiblePages = [currentPage - 1, currentPage, currentPage + 1].filter(
+    (page) => page >= 1 && page <= totalPages
+  );
 
   function formatPrice(price) {
     return Number(price).toLocaleString('vi-VN');
@@ -66,16 +74,23 @@ function ProductList() {
   }
 
   function handlePreviousPage() {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
+    setCurrentPage((previousPage) => Math.max(1, previousPage - 1));
   }
 
   function handleNextPage() {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
+    setCurrentPage((previousPage) => Math.min(totalPages, previousPage + 1));
   }
+
+  function handleFirstPage() {
+    setCurrentPage(1);
+  }
+
+  function handleLastPage() {
+    setCurrentPage(totalPages);
+  }
+
+  const navigationButtonClassName =
+    'flex h-9 w-9 cursor-pointer items-center justify-center border border-[#ddd] text-[13px] text-black transition-colors hover:bg-[#f5f5f5] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white';
 
   return (
     <div className="grid w-full grid-cols-1 gap-8 bg-white py-10 md:grid-cols-[200px_1fr]">
@@ -120,55 +135,82 @@ function ProductList() {
 
               <h3 className="mb-2 text-[13px] text-black">{product.name}</h3>
 
-              <p className="text-[12px] text-[#aaa]">
-                {formatPrice(product.price)} VND
-              </p>
+              <p className="text-[12px] text-[#aaa]">{formatPrice(product.price)} VND</p>
             </button>
           ))}
         </div>
 
         <div className="mt-10 flex flex-col items-end gap-2">
           {totalPages > 1 && (
-            <div className="flex items-center">
+            <nav aria-label="Product pagination" className="flex items-center">
+              {currentPage >= 4 && (
+                <button
+                  type="button"
+                  aria-label="First page"
+                  title="First page"
+                  onClick={handleFirstPage}
+                  className={navigationButtonClassName}
+                >
+                  <FontAwesomeIcon icon={faAnglesLeft} />
+                </button>
+              )}
+
               <button
                 type="button"
+                aria-label="Previous page"
+                title="Previous page"
                 disabled={currentPage === 1}
                 onClick={handlePreviousPage}
-                className="flex h-9 w-9 cursor-pointer items-center justify-center border border-[#ddd] text-[15px] disabled:cursor-not-allowed disabled:opacity-40"
+                className={navigationButtonClassName}
               >
-                «
+                <FontAwesomeIcon icon={faAngleLeft} />
               </button>
 
-              {Array.from({ length: totalPages }, (_, index) => (
+              {visiblePages.map((page) => (
                 <button
-                  key={index + 1}
+                  key={page}
                   type="button"
-                  onClick={() => setCurrentPage(index + 1)}
-                  className={`flex h-9 w-9 cursor-pointer items-center justify-center border border-[#ddd] text-[13px] ${
-                    currentPage === index + 1
+                  aria-label={`Page ${page}`}
+                  aria-current={currentPage === page ? 'page' : undefined}
+                  onClick={() => setCurrentPage(page)}
+                  className={`flex h-9 w-9 cursor-pointer items-center justify-center border border-[#ddd] text-[13px] transition-colors ${
+                    currentPage === page
                       ? 'bg-[#111] text-white'
                       : 'bg-white text-black hover:bg-[#f5f5f5]'
                   }`}
                 >
-                  {index + 1}
+                  {page}
                 </button>
               ))}
 
               <button
                 type="button"
+                aria-label="Next page"
+                title="Next page"
                 disabled={currentPage === totalPages}
                 onClick={handleNextPage}
-                className="flex h-9 w-9 cursor-pointer items-center justify-center border border-[#ddd] text-[15px] disabled:cursor-not-allowed disabled:opacity-40"
+                className={navigationButtonClassName}
               >
-                »
+                <FontAwesomeIcon icon={faAngleRight} />
               </button>
-            </div>
+
+              {currentPage <= totalPages - 3 && (
+                <button
+                  type="button"
+                  aria-label="Last page"
+                  title="Last page"
+                  onClick={handleLastPage}
+                  className={navigationButtonClassName}
+                >
+                  <FontAwesomeIcon icon={faAnglesRight} />
+                </button>
+              )}
+            </nav>
           )}
 
           <p className="text-[12px] italic text-[#aaa]">
             Showing {sortedProducts.length === 0 ? 0 : startIndex + 1}-
-            {Math.min(endIndex, sortedProducts.length)} of{' '}
-            {sortedProducts.length} results
+            {Math.min(endIndex, sortedProducts.length)} of {sortedProducts.length} results
           </p>
         </div>
       </div>

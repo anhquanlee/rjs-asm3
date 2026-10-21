@@ -1,8 +1,5 @@
 function YourOrder({ listCart }) {
-  const total = listCart.reduce(
-    (sum, item) => sum + Number(item.product.price) * item.quantity,
-    0
-  );
+  const total = listCart.reduce((sum, item) => sum + Number(item.product.price) * item.quantity, 0);
 
   function formatPrice(price) {
     return Number(price).toLocaleString('vi-VN');
@@ -10,9 +7,7 @@ function YourOrder({ listCart }) {
 
   return (
     <aside className="bg-[#f8f9fa] px-7 py-9">
-      <h2 className="mb-7 text-[20px] font-normal tracking-wide text-black">
-        YOUR ORDER
-      </h2>
+      <h2 className="mb-3 text-[20px] font-normal tracking-wide text-black">YOUR ORDER</h2>
 
       {listCart.length === 0 ? (
         <p className="text-[13px] text-[#999]">Your shopping cart is empty.</p>
@@ -35,10 +30,7 @@ function YourOrder({ listCart }) {
 
           <div className="flex items-center justify-between gap-3 pt-4">
             <span className="text-[13px] text-black">TOTAL</span>
-
-            <span className="text-right text-[15px] text-[#666]">
-              {formatPrice(total)} VND
-            </span>
+            <span className="text-right text-[15px] text-[#666]">{formatPrice(total)} VND</span>
           </div>
         </div>
       )}

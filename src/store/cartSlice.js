@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// create unique cart_key for each user based on its email
 export function getCartStorageKey(email) {
   return `cart_${encodeURIComponent(email.trim().toLowerCase())}`;
 }
@@ -35,7 +36,7 @@ const cartSlice = createSlice({
     listCart: getInitialCart(),
   },
   reducers: {
-    ADD_CART(state, action) {
+    ADD_ITEM(state, action) {
       const { product, quantity } = action.payload;
 
       if (!Number.isInteger(quantity) || quantity < 1) {
@@ -56,7 +57,7 @@ const cartSlice = createSlice({
       }
     },
 
-    UPDATE_CART(state, action) {
+    UPDATE_ITEM_QUANTITY(state, action) {
       const { productId, quantity } = action.payload;
 
       if (!Number.isInteger(quantity) || quantity < 1) {
@@ -72,7 +73,7 @@ const cartSlice = createSlice({
       }
     },
 
-    DELETE_CART(state, action) {
+    REMOVE_ITEM(state, action) {
       state.listCart = state.listCart.filter(
         (item) => item.product._id.$oid !== action.payload
       );
@@ -88,7 +89,12 @@ const cartSlice = createSlice({
   },
 });
 
-export const { ADD_CART, UPDATE_CART, DELETE_CART, SET_CART, CLEAR_CART } =
-  cartSlice.actions;
+export const {
+  ADD_ITEM,
+  UPDATE_ITEM_QUANTITY,
+  REMOVE_ITEM,
+  SET_CART,
+  CLEAR_CART,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

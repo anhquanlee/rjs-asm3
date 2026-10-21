@@ -14,6 +14,7 @@ const store = configureStore({
 
 let previousCart = store.getState().cart.listCart;
 
+// exe every dispatch redux called
 store.subscribe(() => {
   const state = store.getState();
   const currentCart = state.cart.listCart;

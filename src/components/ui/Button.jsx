@@ -1,9 +1,7 @@
 function Button({
   children,
-  type = 'button',
   variant = 'unstyled',
   fullWidth = false,
-  disabled = false,
   loading = false,
   className = '',
   ...props
@@ -21,8 +19,8 @@ function Button({
   return (
     <button
       {...props}
-      type={type}
-      disabled={disabled || loading}
+      type={props.type ?? 'button'}
+      disabled={props.disabled || loading}
       aria-busy={loading || undefined}
       className={[
         'cursor-pointer',

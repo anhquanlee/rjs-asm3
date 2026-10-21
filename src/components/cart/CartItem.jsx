@@ -1,13 +1,9 @@
-import {
-  faCaretLeft,
-  faCaretRight,
-  faTrashCan,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCaretLeft, faCaretRight, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { DELETE_CART, UPDATE_CART } from '../../store/cartSlice';
+import { REMOVE_ITEM, UPDATE_ITEM_QUANTITY } from '../../store/cartSlice';
 
 function CartItem({ product, quantity }) {
   const navigate = useNavigate();
@@ -21,12 +17,13 @@ function CartItem({ product, quantity }) {
   }
 
   function handleQuantityChange(newQuantity) {
-    if (newQuantity < 1) {
+    if (newQuantity <= 0) {
+      dispatch(REMOVE_ITEM(productId));
       return;
     }
 
     dispatch(
-      UPDATE_CART({
+      UPDATE_ITEM_QUANTITY({
         productId,
         quantity: newQuantity,
       })
@@ -34,17 +31,13 @@ function CartItem({ product, quantity }) {
   }
 
   function handleRemove() {
-    dispatch(DELETE_CART(productId));
+    dispatch(REMOVE_ITEM(productId));
   }
 
   return (
     <tr>
       <td className="px-2 py-6">
-        <img
-          src={product.img1}
-          alt={product.name}
-          className="mx-auto h-20 w-17 object-contain"
-        />
+        <img src={product.img1} alt={product.name} className="mx-auto h-20 w-17 object-contain" />
       </td>
 
       <td className="max-w-40 px-2 py-6">
@@ -67,17 +60,14 @@ function CartItem({ product, quantity }) {
         <div className="flex items-center justify-center gap-3">
           <button
             type="button"
-            disabled={quantity <= 1}
             onClick={() => handleQuantityChange(quantity - 1)}
-            className="cursor-pointer text-[12px] text-black disabled:cursor-not-allowed disabled:opacity-30"
+            className="cursor-pointer text-[12px] text-black"
             aria-label={`Decrease quantity of ${product.name}`}
           >
             <FontAwesomeIcon icon={faCaretLeft} />
           </button>
 
-          <span className="min-w-3 text-[13px] not-italic text-[#666]">
-            {quantity}
-          </span>
+          <span className="min-w-3 text-[13px] not-italic text-[#666]">{quantity}</span>
 
           <button
             type="button"

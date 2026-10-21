@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { HIDE_POPUP } from '../../store/popupSlice';
 
-function Popup() {
+function ProductModal() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -47,25 +47,15 @@ function Popup() {
 
         <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2">
           <div className="flex items-center justify-center">
-            <img
-              src={product.img1}
-              alt={product.name}
-              className="h-75 w-full object-contain"
-            />
+            <img src={product.img1} alt={product.name} className="h-75 w-full object-contain" />
           </div>
 
           <div className="italic">
-            <h2 className="mb-2 text-[22px] font-normal text-black">
-              {product.name}
-            </h2>
+            <h2 className="mb-2 text-[22px] font-normal text-black">{product.name}</h2>
 
-            <p className="mb-3 text-[17px] text-[#aaa]">
-              {formatPrice(product.price)} VND
-            </p>
+            <p className="mb-3 text-[17px] text-[#aaa]">{formatPrice(product.price)} VND</p>
 
-            <p className="mb-6 text-[13px] leading-6 text-[#999]">
-              {product.long_desc}
-            </p>
+            <p className="mb-6 text-[13px] leading-6 text-[#999]">{product.short_desc}</p>
 
             <button
               type="button"
@@ -82,4 +72,4 @@ function Popup() {
   );
 }
 
-export default Popup;
+export default ProductModal;

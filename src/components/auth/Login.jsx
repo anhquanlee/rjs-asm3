@@ -90,9 +90,10 @@ function Login() {
           <div className="mb-5">
             <Input
               id="login-email"
-              label="Email"
               type="email"
               name="email"
+              placeholder="Email"
+              aria-label="Email"
               value={emailValue}
               onChange={handleEmailChange}
               onBlur={handleEmailBlur}
@@ -101,9 +102,10 @@ function Login() {
 
             <Input
               id="login-password"
-              label="Password"
               type="password"
               name="password"
+              placeholder="Password"
+              aria-label="Password"
               value={passwordValue}
               onChange={handlePasswordChange}
               onBlur={handlePasswordBlur}

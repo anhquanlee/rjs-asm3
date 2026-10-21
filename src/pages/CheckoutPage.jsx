@@ -17,7 +17,6 @@ function CheckoutPage() {
 
   return (
     <div className="w-full bg-white pb-20 italic">
-      {/* Checkout banner */}
       <section className="flex min-h-45 items-center justify-between bg-[#f8f9fa] px-8 md:px-14">
         <h1 className="text-[30px] font-normal tracking-wide text-black">
           CHECKOUT
@@ -47,7 +46,6 @@ function CheckoutPage() {
         </div>
       </section>
 
-      {/* Billing details */}
       <section className="mt-14">
         <h2 className="mb-8 text-[20px] font-normal tracking-wide text-black">
           BILLING DETAILS
